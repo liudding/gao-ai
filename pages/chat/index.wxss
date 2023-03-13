@@ -1,0 +1,54 @@
+
+
+.message {
+  width: 100vw;
+  padding: 0 16px;
+  box-sizing: border-box;
+  /* position: relative; */
+  margin-bottom: 16px;
+  /* min-height: 60px; */
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message.bot {
+  flex-direction: row;
+}
+
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 100px;
+  background-color: red;
+}
+
+.message .content {
+  font-size: 17px;
+  line-height: 24px;
+  padding: 10px;
+  background-color: rgb(219, 219, 250);
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.message.user .content {
+  margin-right: 16px;
+  text-align: right;
+}
+
+.message.bot .content {
+  margin-left: 16px;
+  text-align: left;
+}
+
+#anchor {
+  height: 20px;
+  width: 100vw;
+  background-color: red;
+}

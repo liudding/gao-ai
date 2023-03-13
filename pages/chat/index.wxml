@@ -1,0 +1,25 @@
+<scroll-view scroll-into-view="{{scrollInto}}" scroll-y scroll-with-animation class="chat">
+  <block>
+    <view class="message user">
+      <view class="avatar "></view>
+      <view class="content">
+        <view>老师的克拉的辣老师到拉萨的</view>
+      </view>
+    </view>
+
+    <view class="message bot">
+      <view class="avatar "></view>
+      <view class="content">
+        <text>hi hisd 抗衰老的老师打开了手里的老师到了手里的老师的老师肯定是老大</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="message bot current">
+    <view class="avatar"></view>
+    <view class="content">
+      <text>{{currentBotMessage}}</text>
+    </view>
+  </view>
+  <view id="anchor"></view>
+</scroll-view>
