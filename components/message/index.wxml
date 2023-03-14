@@ -1,0 +1,10 @@
+<view class="message {{data.role}}">
+    <view class="content">
+      <text selectable user-select>{{data.content}}</text>
+    </view>
+
+    <view wx:if="{{data.role==='assistant'}}" class="actions">
+      <view bindtap="onTapCopy">复制</view>
+      <view style="margin-left: 8px;">分享</view>
+    </view>
+</view>

@@ -1,0 +1,14 @@
+<view class="message assistant current">
+    <view class="content">
+      <view style="display: flex; align-items: center;">
+        <image src="/images/bot.png" class="bot"></image>
+        <view hidden="{{!assistantIsAnswering}}">
+          <loading></loading>
+        </view>
+      </view>
+      <view style="max-height: 300px;overflow-y: scroll;">
+        <text wx:if="{{currentAssistantMessage}}" selectable user-select>{{currentAssistantMessage}}</text>
+      </view>
+    </view>
+
+  </view>

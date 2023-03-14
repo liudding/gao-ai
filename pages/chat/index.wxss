@@ -1,54 +1,124 @@
-
+.chat {
+  /* padding-bottom: 64px; */
+  /* padding-top: 16px; */
+  height: calc(100vh - 56px - env(safe-area-inset-bottom));
+  background-color: #efefef;
+}
 
 .message {
   width: 100vw;
   padding: 0 16px;
   box-sizing: border-box;
-  /* position: relative; */
   margin-bottom: 16px;
-  /* min-height: 60px; */
   display: flex;
-  /* align-items: center; */
-  /* justify-content: space-between; */
 }
 
-.message.user {
-  flex-direction: row-reverse;
-}
-
-.message.bot {
+.message.assistant {
   flex-direction: row;
-}
-
-
-.avatar {
-  height: 40px;
-  width: 40px;
-  border-radius: 100px;
-  background-color: red;
 }
 
 .message .content {
   font-size: 17px;
   line-height: 24px;
   padding: 10px;
-  background-color: rgb(219, 219, 250);
   border-radius: 8px;
+  min-width: 20px;
   max-width: 80%;
+  word-wrap: break-word;
 }
 
-.message.user .content {
-  margin-right: 16px;
-  text-align: right;
-}
-
-.message.bot .content {
-  margin-left: 16px;
+.message.assistant .content {
+  margin-left: 0px;
   text-align: left;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 7px;
+  border-radius: 0px 8px 8px 8px;
+}
+
+.bot {
+  width: 15px;
+  height: 15px;
 }
 
 #anchor {
-  height: 20px;
+  height: 60px;
   width: 100vw;
+  /* background-color: red; */
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 8px;
+  padding-bottom: calc(8px +  env(safe-area-inset-bottom));
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #efefef;
+  box-shadow: rgba(0, 0, 0, 0.07) 0 0px 10px;
+}
+
+.menu {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  background: rgb(196, 196, 196);
+}
+
+.input-box {
+  flex: 1;
+  margin-left: 8px;
+  height: 40px;
+  background-color: white;
+  border-radius: 8px;
+  /* border: rgba(0, 0, 0, 0.1) solid 1px; */
+
+  display: flex;
+  align-items: center;
+
+  padding: 8px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  font-size: 17px;
+  line-height: 20px;
   background-color: red;
+}
+
+.input-box textarea {
+  width: 100%;
+  font-size: 17px;
+  line-height: 20px;
+  /* background-color: red; */
+}
+
+.stop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  border-radius: 8px;
+  line-height: 40px;
+  background: rgb(226, 226, 226);
+  color: rgb(255, 93, 93);
+}
+
+.tools {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 12px; 
+  color: gray
 }

@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "message": "/components/message/index",
+    "current-message": "/components/current-message/index",
+    "loading": "/components/loading/loading"
+  }
 }

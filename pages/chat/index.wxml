@@ -1,25 +1,33 @@
-<scroll-view scroll-into-view="{{scrollInto}}" scroll-y scroll-with-animation class="chat">
-  <block>
-    <view class="message user">
-      <view class="avatar "></view>
-      <view class="content">
-        <view>老师的克拉的辣老师到拉萨的</view>
-      </view>
-    </view>
-
-    <view class="message bot">
-      <view class="avatar "></view>
-      <view class="content">
-        <text>hi hisd 抗衰老的老师打开了手里的老师到了手里的老师的老师肯定是老大</text>
-      </view>
-    </view>
+<scroll-view scroll-top="{{scrollTop}}" scroll-into-view="{{scrollIntoView}}" scroll-y="true" scroll-with-animation class="chat">
+  <view style="height: 20px; width: 100%;"></view>
+  <block wx:for="{{messages}}" wx:key="index">
+    <message data="{{item}}"></message>
   </block>
 
-  <view class="message bot current">
-    <view class="avatar"></view>
+  <view class="message assistant current">
     <view class="content">
-      <text>{{currentBotMessage}}</text>
+      <view style="display: flex; align-items: center; margin-bottom: 8px;">
+        <image src="/images/bot.png" class="bot"></image>
+        <view hidden="{{!assistantIsAnswering}}">
+          <loading></loading>
+        </view>
+      </view>
+      <view style="max-height: 300px;overflow-y: scroll;">
+        <text wx:if="{{currentAssistantMessage}}" selectable user-select>{{currentAssistantMessage}}</text>
+      </view>
     </view>
   </view>
+  <view class="tools">
+    <view wx:if="{{message.length}}" bindtap="onTapClear">清空对话</view>
+  </view>
   <view id="anchor"></view>
+  <!-- <view id="anchor2" style="width: 100vw; height: 20px;background: blue;"></view> -->
 </scroll-view>
+
+<view class="bottom-bar">
+  <view bindtap="onTapMenu" class="menu"></view>
+  <view class="input-box">
+    <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
+    <view wx:if="{{assistantIsAnswering}}" catchtap="onTapStop" class="stop" >停止</view>
+  </view>
+</view>

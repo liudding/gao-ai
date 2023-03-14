@@ -1,0 +1,7 @@
+<view class="loading-dots">
+  <view class="dot"></view>
+  <view class="dot"></view>
+  <view class="dot"></view>
+  <view class="dot"></view>
+  <view class="dot"></view>
+</view>
