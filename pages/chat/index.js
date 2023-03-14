@@ -2,6 +2,7 @@ import {
   TextDecoder
 } from 'text-decoding'
 import {throttle} from '../../utils/util'
+import roles from './roles'
 Page({
 
   data: {
@@ -25,7 +26,9 @@ Page({
       content: 'hi'
     }],
     currentAssistantMessage: 'hi how can i assist',
-    scrollTop: null
+    scrollTop: null,
+    showRolePicker: false,
+    roles:roles
   },
 
   async onLoad(options) {
@@ -45,11 +48,11 @@ Page({
   async onConfirmSend(e) {
     this.clearCurrentAssistantMessage()
 
-    const text = e.detail.value
-    this.data.messages.push({
+    const msg = {
       role: 'user',
-      content: text
-    })
+      content: e.detail.value
+    }
+    this.data.messages.push(msg)
 
     this.setData({
       messages: this.data.messages,
@@ -58,17 +61,26 @@ Page({
       scrollIntoView: 'anchor'
     })
 
+    this.addMessageToHistory(msg)
+
     this.sendToBot()
   },
 
   onTapMenu() {
     this.setData({
-      scrollTop: 0
+      showRolePicker: true
     })
   },
 
   async sendToBot() {
-    const requestMessageList = this.data.messages
+    const requestMessageList = this.data.messages.concat()
+
+    if (this.currentAssistantRole) {
+      requestMessageList.unshift({
+        role: 'user', // system
+        content: this.currentAssistantRole.prompt
+      })
+    }
 
     const timestamp = Date.now()
     this.task = wx.request({
@@ -88,6 +100,10 @@ Page({
           assistantIsAnswering: false,
           scrollIntoView: 'anchor'
         })
+        this.addMessageToHistory({
+          role: 'assistant',
+          content: this.data.currentAssistantMessage
+        })
       }
     })
 
@@ -102,6 +118,7 @@ Page({
     }, 300)
 
     const decoder = new TextDecoder()
+
     this.task.onChunkReceived((res) => {
       const msg = decoder.decode(res.data)
       this.data.currentAssistantMessage += msg
@@ -120,7 +137,49 @@ Page({
     })
   },
 
+  onTapCopy() {
+    wx.setClipboardData({
+      data: this.data.currentAssistantMessage,
+    })
+  },
 
+  onTapHistory() {
+    wx.navigateTo({
+      url: '/pages/history/history',
+    })
+  },
+
+  onTapRole(e) {
+    const role = e.currentTarget.dataset.item
+
+    this.currentAssistantRole = role;
+
+    this.setData({
+      messages: [],
+      currentAssistantMessage: role.greeting,
+      showRolePicker: false
+    })
+
+    wx.setNavigationBarTitle({
+      title: role.name,
+    })
+  },
+
+  addMessageToHistory(msg) {
+    wx.getStorage({
+      key: 'MESSAGE_HISTORIES',
+      success: (res) => {
+        const histories = (res.data || [])
+        histories.push(msg)
+        wx.setStorage({
+          key: 'MESSAGE_HISTORIES',
+          data: histories
+        })
+      },
+      fail: (e) => {
+      }
+    })
+  },
 
   onShareAppMessage() {
 

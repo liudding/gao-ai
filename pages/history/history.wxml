@@ -1,0 +1,6 @@
+<scroll-view scroll-top="{{scrollTop}}" scroll-into-view="{{scrollIntoView}}" scroll-y="true" scroll-with-animation class="chat">
+  <view style="height: 20px; width: 100%;"></view>
+  <block wx:for="{{messages}}" wx:key="index">
+    <message data="{{item}}"></message>
+  </block>
+</scroll-view>

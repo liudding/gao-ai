@@ -28,7 +28,7 @@
   padding: 10px;
   border-radius: 8px;
   min-width: 20px;
-  max-width: 80%;
+  max-width: 88%;
 
   word-wrap: break-word;
 }

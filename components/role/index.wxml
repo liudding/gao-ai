@@ -1,0 +1,4 @@
+<view class="role">
+  <!-- <view class="icon"></view> -->
+  <view class="name">{{data.name}}</view>
+</view>
