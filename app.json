@@ -1,13 +1,12 @@
 {
   "pages": [
     "pages/chat/index",
-    "pages/index/index",
     "pages/history/history"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "小零",
     "navigationBarTextStyle": "black"
   },
   "style": "v2",

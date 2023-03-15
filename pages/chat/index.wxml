@@ -4,16 +4,16 @@
     <message data="{{item}}"></message>
   </block>
 
-  <view class="message assistant current">
+  <view hidden="{{!showCurrentAnswer}}" class="message assistant current">
     <view class="content">
       <view style="display: flex; align-items: center; margin-bottom: 8px;">
         <image src="/images/bot.png" class="bot"></image>
-        <view hidden="{{!assistantIsAnswering}}">
+        <view hidden="{{!assistantIsAnswering}}" style="margin-left: 8px;">
           <loading></loading>
         </view>
       </view>
       <view>
-        <text wx:if="{{currentAssistantMessage}}" selectable user-select>{{currentAssistantMessage}}</text>
+        <text hidden="{{!currentAssistantMessage}}" selectable user-select>{{currentAssistantMessage}}</text>
       </view>
     </view>
     <view class="actions">
@@ -29,11 +29,11 @@
 
 <view class="bottom-bar">
   <view bindtap="onTapMenu" class="menu"></view>
-  <view bindtap="onTapHistory" class="menu"></view>
+  <view bindtap="onTapHistory" class="menu" style="margin-left: 8px;"></view>
   <view class="input-box">
-    <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
+    <!-- <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
 
-    <!-- <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
+    <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
     <view wx:if="{{assistantIsAnswering}}" catchtap="onTapStop" class="stop" >停止</view>
   </view>
 </view>

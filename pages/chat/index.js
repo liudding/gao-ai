@@ -1,44 +1,45 @@
 import {
   TextDecoder
-} from 'text-decoding'
-import {throttle} from '../../utils/util'
+} from '../../utils/text-decoding/index'
+import { throttle } from '../../utils/util'
 import roles from './roles'
 Page({
 
   data: {
-    messages: [{
-      role: 'user',
-      content: 'hi'
-    }, {
-      role: 'assistant',
-      content: 'assistant klasdlk 卢卡斯克拉的萨拉丁考虑扣税的零三点零开始老师肯定考虑'
-    }, {
-      role: 'user',
-      content: 'hi  卡拉斯科啦的案例看首都卡拉看ask大口大口可是可是可是看到'
-    }, {
-      role: 'user',
-      content: 'haslasdasdasdkdi'
-    },{
-      role: 'assistant',
-      content: 'lkslk了顺利打开老师的课克里斯蒂拉萨的考虑是到了圣诞快乐老师看到拉萨扩大了快速旅客的顺利打开拉萨的考虑萨拉丁考虑扣税的考虑势力扩大克莱斯勒看到十六点克莱斯勒看到是镂空雕刻拉上了的'
-    }, {
-      role: 'assistant',
-      content: 'hi'
-    }],
-    currentAssistantMessage: 'hi how can i assist',
+    messages: [],
+    currentAssistantMessage: '',
+    showCurrentAnswer: false,
+    assistantIsAnswering: false,
     scrollTop: null,
     showRolePicker: false,
-    roles:roles
+    roles: roles
   },
 
   async onLoad(options) {
+    // const prompt = 'I want you to act as a spoken English teacher and improver. I will speak to you in English and you will reply to me in English to practice my spoken English. I want you to keep your reply neat, limiting the reply to 100 words. I want you to strictly correct my grammar mistakes, typos, and factual errors. I want you to ask me a question in your reply. Now let’s start practicing, you could ask me a question first. Remember, I want you to correct my grammar mistakes, typos, and factual errors strictly.'
+
+    // this.messages = [{
+    //   role: 'user',
+    //   content: prompt
+    // }]
+
+    // this.setData({
+    //   messages: this.data.messages,
+    //   currentInput: '',
+    //   assistantIsAnswering: false,
+    //   scrollIntoView: 'anchor'
+    // })
+    // this.sendToBot();
   },
 
   clearCurrentAssistantMessage() {
-    this.data.messages.push({
-      role: 'assistant',
-      content: this.data.currentAssistantMessage
-    })
+    if (this.data.currentAssistantMessage) {
+      this.data.messages.push({
+        role: 'assistant',
+        content: this.data.currentAssistantMessage
+      })
+    }
+
     this.setData({
       messages: this.data.messages,
       currentAssistantMessage: ''
@@ -57,6 +58,7 @@ Page({
     this.setData({
       messages: this.data.messages,
       currentInput: '',
+      showCurrentAnswer: true,
       assistantIsAnswering: true,
       scrollIntoView: 'anchor'
     })
@@ -94,34 +96,43 @@ Page({
       dataType: 'arraybuffer',
       responseType: 'arraybuffer',
       enableChunked: true,
-      complete: (res) => {
+      fail: () => {
         this.task = null
         this.setData({
           assistantIsAnswering: false,
+          currentAssistantMessage: '糟糕，出错了',
           scrollIntoView: 'anchor'
         })
-        this.addMessageToHistory({
-          role: 'assistant',
-          content: this.data.currentAssistantMessage
-        })
+      },
+      complete: (res) => {
+        setTimeout(() => {
+          this.task = null
+          this.setData({
+            assistantIsAnswering: false,
+            scrollIntoView: 'anchor'
+          })
+          this.addMessageToHistory({
+            role: 'assistant',
+            content: this.data.currentAssistantMessage
+          })
+        }, 300)
       }
     })
 
     const updateUI = throttle(() => {
       this.setData({
         currentAssistantMessage: this.data.currentAssistantMessage,
+        showCurrentAnswer: true,
         assistantIsAnswering: true,
-        scrollTo: 100000,
         scrollIntoView: 'anchor'
       })
-
     }, 300)
 
     const decoder = new TextDecoder()
-
     this.task.onChunkReceived((res) => {
       const msg = decoder.decode(res.data)
       this.data.currentAssistantMessage += msg
+      this.data.currentAssistantMessage = "".trim()
       updateUI()
     })
   },
@@ -156,7 +167,7 @@ Page({
 
     this.setData({
       messages: [],
-      currentAssistantMessage: role.greeting,
+      currentAssistantMessage: role.greeting || '',
       showRolePicker: false
     })
 
