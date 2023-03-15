@@ -131,8 +131,10 @@ Page({
     const decoder = new TextDecoder()
     this.task.onChunkReceived((res) => {
       const msg = decoder.decode(res.data)
+      if (msg === '\n') {
+        return;
+      }
       this.data.currentAssistantMessage += msg
-      this.data.currentAssistantMessage = "".trim()
       updateUI()
     })
   },
