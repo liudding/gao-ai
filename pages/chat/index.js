@@ -12,6 +12,7 @@ Page({
     assistantIsAnswering: false,
     scrollTop: null,
     showRolePicker: false,
+
     roles: roles
   },
 
@@ -86,7 +87,7 @@ Page({
 
     const timestamp = Date.now()
     this.task = wx.request({
-      url: 'https://chatgpt.liuding.fun/api/completion',
+      url: 'https://completion.nxlinkstar.com/api/completion',
       method: 'POST',
       data: {
         messages: requestMessageList,
@@ -146,7 +147,8 @@ Page({
 
   onTapClear() {
     this.setData({
-      messages: []
+      messages: [],
+      currentAssistantMessage: ''
     })
   },
 
@@ -165,17 +167,35 @@ Page({
   onTapRole(e) {
     const role = e.currentTarget.dataset.item
 
+    if (this.currentAssistantRole && this.currentAssistantRole.id === role.id) return;
+
     this.currentAssistantRole = role;
 
     this.setData({
-      messages: [],
-      currentAssistantMessage: role.greeting || '',
+      messages: role.messages || [],
+      // currentAssistantMessage: role.greeting || '',
       showRolePicker: false
     })
 
     wx.setNavigationBarTitle({
       title: role.name,
     })
+
+    if (!role.messages || !role.messages.length) {
+      return
+    }
+
+    const last = role.messages[role.messages.length - 1]
+    if (last.role === 'assistant') {
+      return;
+    }
+
+    this.setData({
+      showCurrentAnswer: true,
+      assistantIsAnswering: true,
+      scrollIntoView: 'anchor'
+    })
+    this.sendToBot();
   },
 
   addMessageToHistory(msg) {

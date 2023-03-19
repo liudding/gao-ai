@@ -4,13 +4,15 @@
   align-items: center;
 
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .name {
-  padding: 8px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  min-width: 40px;
+  border-radius: 16px;
   background: #eee;
+  text-align: center;
 }
 
 .icon {

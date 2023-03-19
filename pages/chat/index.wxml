@@ -31,9 +31,9 @@
   <view bindtap="onTapMenu" class="menu"></view>
   <view bindtap="onTapHistory" class="menu" style="margin-left: 8px;"></view>
   <view class="input-box">
-    <!-- <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
+    <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
 
-    <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
+    <!-- <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
     <view wx:if="{{assistantIsAnswering}}" catchtap="onTapStop" class="stop" >停止</view>
   </view>
 </view>
