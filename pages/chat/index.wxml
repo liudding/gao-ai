@@ -18,7 +18,7 @@
     </view>
     <view class="actions">
       <view bindtap="onTapCopy">复制</view>
-      <view style="margin-left: 8px;">分享</view>
+      <!-- <view style="margin-left: 8px;">分享</view> -->
     </view>
   </view>
   <view class="tools">
@@ -28,12 +28,16 @@
 </scroll-view>
 
 <view class="bottom-bar">
-  <view bindtap="onTapMenu" class="menu"></view>
-  <view bindtap="onTapHistory" class="menu" style="margin-left: 8px;"></view>
+  <view bindtap="onTapMenu" class="menu">
+    <image src="/images/menu.png" style="width: 28px; height: 28px;"></image>
+  </view>
+  <view bindtap="onTapHistory" class="menu" style="margin-left: 8px;">
+    <image src="/images/history.png" style="width: 25px; height: 25px;"></image>
+  </view>
   <view class="input-box">
-    <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
+    <!-- <input value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
 
-    <!-- <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/> -->
+    <textarea value="{{currentInput}}" disabled="{{assistantIsAnswering}}" bindconfirm="onConfirmSend" confirm-type="send" cursor-spacing="56" fixed="true" maxlength="300" auto-height show-confirm-bar="{{false}}"/>
     <view wx:if="{{assistantIsAnswering}}" catchtap="onTapStop" class="stop" >停止</view>
   </view>
 </view>

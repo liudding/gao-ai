@@ -1,7 +1,7 @@
 import {
   TextDecoder
 } from '../../utils/text-decoding/index'
-import { throttle } from '../../utils/util'
+import throttle from '../../utils/throttle'
 import roles from './roles'
 Page({
 
@@ -17,6 +17,23 @@ Page({
   },
 
   async onLoad(options) {
+    wx.getStorage({
+      key: 'MESSAGE_HISTORIES',
+      success: (res) => {
+        this.histories = res.data || []
+      },
+      fail: (e) => {
+        this.histories = []
+      }
+    })
+    
+    if (options.role) {
+      const role = this.data.roles.find(i => i.id === options.role)
+      if (role) {
+        this.switchToRole(role)
+      }
+    }
+
     // const prompt = 'I want you to act as a spoken English teacher and improver. I will speak to you in English and you will reply to me in English to practice my spoken English. I want you to keep your reply neat, limiting the reply to 100 words. I want you to strictly correct my grammar mistakes, typos, and factual errors. I want you to ask me a question in your reply. Now let’s start practicing, you could ask me a question first. Remember, I want you to correct my grammar mistakes, typos, and factual errors strictly.'
 
     // this.messages = [{
@@ -31,6 +48,8 @@ Page({
     //   scrollIntoView: 'anchor'
     // })
     // this.sendToBot();
+
+  
   },
 
   clearCurrentAssistantMessage() {
@@ -87,7 +106,7 @@ Page({
 
     const timestamp = Date.now()
     this.task = wx.request({
-      url: 'https://completion.nxlinkstar.com/api/completion',
+      url: 'https://completion.liuding.fun/api/completion',
       method: 'POST',
       data: {
         messages: requestMessageList,
@@ -164,16 +183,14 @@ Page({
     })
   },
 
-  onTapRole(e) {
-    const role = e.currentTarget.dataset.item
-
-    if (this.currentAssistantRole && this.currentAssistantRole.id === role.id) return;
-
+  switchToRole(role) {
     this.currentAssistantRole = role;
 
     this.setData({
       messages: role.messages || [],
-      // currentAssistantMessage: role.greeting || '',
+      currentAssistantMessage: '',
+      assistantIsAnswering: false,
+      showCurrentAnswer: false,
       showRolePicker: false
     })
 
@@ -198,19 +215,20 @@ Page({
     this.sendToBot();
   },
 
+  onTapRole(e) {
+    const role = e.currentTarget.dataset.item
+
+    if (this.currentAssistantRole && this.currentAssistantRole.id === role.id) return;
+
+    this.switchToRole(role)
+  },
+
   addMessageToHistory(msg) {
-    wx.getStorage({
+    this.histories.push(msg)
+
+    wx.setStorage({
       key: 'MESSAGE_HISTORIES',
-      success: (res) => {
-        const histories = (res.data || [])
-        histories.push(msg)
-        wx.setStorage({
-          key: 'MESSAGE_HISTORIES',
-          data: histories
-        })
-      },
-      fail: (e) => {
-      }
+      data: this.histories
     })
   },
 
